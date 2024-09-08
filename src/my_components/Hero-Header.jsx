@@ -22,7 +22,7 @@ export default function Hero_Header() {
                 </div>
             </div>
             <div className="h-screen w-1/2">
-                <img className="h-full w-full object-cover" src="Container ship-amico.svg" alt="Container ship" />
+                <img className="h-full w-full object-cover" src="boat.svg" alt="Container ship" />
             </div>
         </div>
     );

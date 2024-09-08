@@ -16,8 +16,7 @@ import { Label } from '@/components/ui/Label';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import Draggable from 'react-draggable';
-import {  makerequest,sendData } from '../api'; // Import fetchRouteData
-
+import { makerequest, sendData } from '../api'; // Import fetchRouteData
 
 const GEOCODE_API_URL = 'https://nominatim.openstreetmap.org/search';
 
@@ -129,7 +128,7 @@ const MapPage = () => {
       <Navbar className="absolute top-0 left-0 w-full z-20" />
       <Draggable>
         <div className="absolute top-16 left-4 z-20 cursor-move">
-          <Card className="w-80 border border-primary p-4 rounded-2xl bg-white shadow-lg">
+          <Card className="w-80 border border-transparent dark:bg-black dark:border-white/[0.2] bg-white/[0.7] p-4 rounded-2xl shadow-lg">
             <CardHeader>
               <CardTitle className="text-xl flex justify-center">NaviX</CardTitle>
               <div className="flex justify-center mt-1">___________________</div>
@@ -145,6 +144,7 @@ const MapPage = () => {
                 value={startSearchQuery}
                 onChange={e => setStartSearchQuery(e.target.value)}
                 onFocus={() => setShowStartDropdown(true)}
+                className="bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-600"
               />
               {showStartDropdown && (
                 <ul className="absolute z-30 w-full mt-2 overflow-hidden bg-white border border-gray-300 rounded-md shadow-md">
@@ -168,6 +168,7 @@ const MapPage = () => {
                 value={endSearchQuery}
                 onChange={e => setEndSearchQuery(e.target.value)}
                 onFocus={() => setShowEndDropdown(true)}
+                className="bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-600"
               />
               {showEndDropdown && (
                 <ul className="absolute z-30 w-full mt-2 overflow-hidden bg-white border border-gray-300 rounded-md shadow-md">

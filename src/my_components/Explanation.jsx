@@ -5,14 +5,14 @@ export default function Explanation() {
         <div >
             <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen bg-gray-100 bg-opacity-0 p-8">
                 <div className="lg:w-1/2 w-full flex justify-center items-center">
-                    <img className="h-auto w-1/2 object-cover" src="Container ship-amico.svg" alt="Container ship" />
+                    <img className="h-140px w-180px  object-cover" src="logo/4.png" alt="Container ship" />
                 </div>
                 <div className="lg:w-1/2 w-full p-4 lg:ml-16">
                     <div className="text-5xl font-bold text-center mb-8">What is NaviX?</div>
-                    <div className="text-2xl text-gray-700 mb-8">
+                    <div className="text-2xl text-primary mb-8">
                         Navix is an intelligent ship routing solution that adapts in real-time to ocean conditions like weather, currents, and waves for optimal navigation.
                     </div>
-                    <div className="text-xl text-gray-600 space-y-4">
+                    <div className="text-2xl text-primary space-y-4">
                         <div className="flex items-center">
                             <img src="fuel.png" alt="Fuel Optimization" className="h-8 w-8 mr-4" />
                             <div>

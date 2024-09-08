@@ -35,7 +35,7 @@ const OutputPage = ({ points }) => {
       
       {/* Draggable Left Panel */}
       <Draggable>
-        <div className="absolute top-16 left-4 z-20 cursor-move w-full md:w-1/3 p-6 mb-8 bg-white rounded-md shadow-md">
+        <div className="absolute top-16 left-4 z-20 cursor-move w-full md:w-1/3 p-6 mb-8 bg-white/[0.7] rounded-md shadow-md border border-transparent dark:bg-black dark:border-white/[0.2]">
           <h2 className="mb-4 text-2xl font-semibold">Path Details</h2>
 
           {/* Start Location */}
