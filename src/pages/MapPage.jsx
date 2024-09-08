@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -15,6 +16,8 @@ import { Label } from '@/components/ui/Label';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import Draggable from 'react-draggable';
+import {  makerequest,sendData } from '../api'; // Import fetchRouteData
+
 
 const GEOCODE_API_URL = 'https://nominatim.openstreetmap.org/search';
 
@@ -27,6 +30,7 @@ const MapPage = () => {
   const [endSearchQuery, setEndSearchQuery] = useState('');
   const [showStartDropdown, setShowStartDropdown] = useState(false);
   const [showEndDropdown, setShowEndDropdown] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const debounce = (func, delay) => {
     let timeoutId;
@@ -87,22 +91,34 @@ const MapPage = () => {
     setShowDropdown(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (startLocation && endLocation) {
       const result = {
-        start_lati: startLocation.lat,
-        start_longi: startLocation.lon,
-        end_lati: endLocation.lat,
-        end_longi: endLocation.lon
+        start_latitude: parseInt(startLocation.lat),
+        start_longitude: parseInt(startLocation.lon),
+        end_latitude: parseInt(endLocation.lat),
+        end_longitude: parseInt(endLocation.lon)
       };
-
-      console.log('Selected Locations:', result);
-
-      setStartSearchQuery(startLocation.display_name || '');
-      setEndSearchQuery(endLocation.display_name || '');
-
-      setStartSearchResults([]);
-      setEndSearchResults([]);
+  
+      // console.log('Sending request:', result);
+  
+      try {
+        let points = await makerequest(result);
+        console.log('Response from makerequest:', points);
+       
+        if (points) {
+          console.log('Route:', points);
+          const file = await sendData(points)
+          
+          navigate('/outputmap', { points });
+        } else {
+          console.error('Route not found in points:');
+        }
+  
+      } catch (error) {
+        console.error('Error fetching route:', error);
+      }
+  
     } else {
       alert('Please select both start and end locations');
     }
