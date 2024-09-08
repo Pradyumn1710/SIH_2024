@@ -9,13 +9,13 @@ const HomePage = () => {
   return (
     <div>
       <Navbar />
-      <section id="home" className="min-h-screen bg-gray-100 p-8">
+      <section id="home" className="min-h-screen bg-gray-100 ">
         <Hero_Header />
       </section>
-      <section id="what-is-navix" className="min-h-screen bg-gray-100 p-8">
+      <section id="what-is-navix" className="flex min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('/gamma/g1.png')" }}>
         <Explanation />
       </section>
-      <section id="why-navix" className="min-h-screen bg-gray-100 p-8">
+      <section id="why-navix" >
         <Impact />
       </section>
     </div>

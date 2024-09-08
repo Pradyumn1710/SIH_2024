@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -9,10 +10,10 @@ export default function Hero_Header() {
     };
 
     return (
-        <div className="flex">
+        <div className="flex min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('hero_bg_main.jpg')" }}>
             <div className="h-screen w-1/2 p-2">
                 <div className="grid place-content-center h-full">
-                    <div className="text-7xl font-bold mb-4">NaviX</div>
+                    <div className="text-8xl font-bold mb-4">NaviX</div>
                     <div className="text-2xl mb-8">Advanced ship routing solution that optimizes</div>
                     <div className="flex justify-center space-x-4">
                         <Button onClick={handleMapClick}>Map</Button>

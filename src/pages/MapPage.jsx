@@ -10,10 +10,11 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card" // Assuming you're using a custom Card component
-import {Label } from '@/components/ui/Label';
+} from "@/components/ui/card"; // Assuming you're using a custom Card component
+import { Label } from '@/components/ui/Label';
 import { Button } from '@/components/ui/Button';
-import {  Input } from '@/components/ui/Input';
+import { Input } from '@/components/ui/Input';
+import Draggable from 'react-draggable';
 
 const GEOCODE_API_URL = 'https://nominatim.openstreetmap.org/search';
 
@@ -108,105 +109,102 @@ const MapPage = () => {
   };
 
   return (
-    <div>
-      <div className='m-4 p-4 mb-8 pb-8'><Navbar/></div>
-      <div className="mt-16 flex flex-col items-center justify-between px-4 mx-auto my-4 md:flex-row md:items-start md:px-8">
-        
-        {/* Card Component with styled UI */}
-        <Card className="h-2px w-80 border border-primary m-10 pr-2 rounded-t-2xl rounded-l-2xl">
-          <CardHeader>
-            <CardTitle className="text-xl flex justify-center">NaviX</CardTitle>
-            <div className="flex justify-center mt-1">___________________</div>
-            <CardDescription></CardDescription>
-          </CardHeader>
-          
-          <CardContent>
-            {/* Start Location Input */}
-            <Label className="flex pb-1 pl-1 text-lg">From</Label>
-            <Input
-              placeholder='From'
-              type='text'
-              value={startSearchQuery}
-              onChange={e => setStartSearchQuery(e.target.value)}
-              onFocus={() => setShowStartDropdown(true)}
-            />
-            {showStartDropdown && (
-              <ul className="absolute z-10 w-full mt-2 overflow-hidden bg-white border border-gray-300 rounded-md shadow-md">
-                {startSearchResults.map(result => (
-                  <li
-                    className="p-2 transition duration-150 ease-in-out cursor-pointer hover:bg-blue-100"
-                    key={result.place_id}
-                    onClick={() => handleLocationSelect(result, setStartLocation, setStartSearchQuery, setShowStartDropdown)}
-                  >
-                    {result.display_name}
-                  </li>
-                ))}
-              </ul>
-            )}
+    <div className="relative min-h-screen">
+      <Navbar className="absolute top-0 left-0 w-full z-20" />
+      <Draggable>
+        <div className="absolute top-16 left-4 z-20 cursor-move">
+          <Card className="w-80 border border-primary p-4 rounded-2xl bg-white shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-xl flex justify-center">NaviX</CardTitle>
+              <div className="flex justify-center mt-1">___________________</div>
+              <CardDescription></CardDescription>
+            </CardHeader>
+            
+            <CardContent>
+              {/* Start Location Input */}
+              <Label className="flex pb-1 pl-1 text-lg">From</Label>
+              <Input
+                placeholder='From'
+                type='text'
+                value={startSearchQuery}
+                onChange={e => setStartSearchQuery(e.target.value)}
+                onFocus={() => setShowStartDropdown(true)}
+              />
+              {showStartDropdown && (
+                <ul className="absolute z-30 w-full mt-2 overflow-hidden bg-white border border-gray-300 rounded-md shadow-md">
+                  {startSearchResults.map(result => (
+                    <li
+                      className="p-2 transition duration-150 ease-in-out cursor-pointer hover:bg-blue-100"
+                      key={result.place_id}
+                      onClick={() => handleLocationSelect(result, setStartLocation, setStartSearchQuery, setShowStartDropdown)}
+                    >
+                      {result.display_name}
+                    </li>
+                  ))}
+                </ul>
+              )}
 
-            {/* End Location Input */}
-            <Label className="flex pt-2 pb-1 pl-1 text-lg">To</Label>
-            <Input
-              placeholder='To'
-              type='text'
-              value={endSearchQuery}
-              onChange={e => setEndSearchQuery(e.target.value)}
-              onFocus={() => setShowEndDropdown(true)}
-            />
-            {showEndDropdown && (
-              <ul className="absolute z-10 w-full mt-2 overflow-hidden bg-white border border-gray-300 rounded-md shadow-md">
-                {endSearchResults.map(result => (
-                  <li
-                    className="p-2 transition duration-150 ease-in-out cursor-pointer hover:bg-blue-100"
-                    key={result.place_id}
-                    onClick={() => handleLocationSelect(result, setEndLocation, setEndSearchQuery, setShowEndDropdown)}
-                  >
-                    {result.display_name}
-                  </li>
-                ))}
-              </ul>
-            )}
+              {/* End Location Input */}
+              <Label className="flex pt-2 pb-1 pl-1 text-lg">To</Label>
+              <Input
+                placeholder='To'
+                type='text'
+                value={endSearchQuery}
+                onChange={e => setEndSearchQuery(e.target.value)}
+                onFocus={() => setShowEndDropdown(true)}
+              />
+              {showEndDropdown && (
+                <ul className="absolute z-30 w-full mt-2 overflow-hidden bg-white border border-gray-300 rounded-md shadow-md">
+                  {endSearchResults.map(result => (
+                    <li
+                      className="p-2 transition duration-150 ease-in-out cursor-pointer hover:bg-blue-100"
+                      key={result.place_id}
+                      onClick={() => handleLocationSelect(result, setEndLocation, setEndSearchQuery, setShowEndDropdown)}
+                    >
+                      {result.display_name}
+                    </li>
+                  ))}
+                </ul>
+              )}
 
-            {/* Go Button */}
-            <Button className="mt-5 p-5 rounded-xl flex justify-end" onClick={handleSave}>
-              Go
-            </Button>
-          </CardContent>
+              {/* Go Button */}
+              <Button className="mt-5 p-5 rounded-xl flex justify-end" onClick={handleSave}>
+                Go
+              </Button>
+            </CardContent>
 
-          <div className="flex justify-center">_______________________________</div>
-          <CardFooter className="flex space-between justify-center">
-            {/* <div className="h-28 text-sm p-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere dicta cupiditate minus, laborum necessitatibus exercitationem.
-            </div> */}
-            <div className='p-4`'></div>
-          </CardFooter>
-        </Card>
+            <div className="flex justify-center">_______________________________</div>
+            <CardFooter className="flex space-between justify-center">
+              <div className='p-4'></div>
+            </CardFooter>
+          </Card>
+        </div>
+      </Draggable>
 
-        {/* Map */}
-        <MapContainer 
-          center={[20, 0]}
-          zoom={3}
-          className="w-full h-96 md:w-2/3 m-10 pr-2"
-          maxBounds={[[ -60, -180 ], [ 80, 180 ]]}
-          maxBoundsViscosity={1.0}
-          worldCopyJump={false}
-          minZoom={2}
-          maxZoom={10}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
+      {/* Map */}
+      <MapContainer 
+        center={[20, 0]}
+        zoom={3}
+        className="w-full h-screen z-10"
+        maxBounds={[[ -60, -180 ], [ 80, 180 ]]}
+        maxBoundsViscosity={1.0}
+        worldCopyJump={false}
+        minZoom={2}
+        maxZoom={10}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
 
-          {startLocation && (
-            <Marker position={[startLocation.lat, startLocation.lon]} icon={defaultIcon} />
-          )}
+        {startLocation && (
+          <Marker position={[startLocation.lat, startLocation.lon]} icon={defaultIcon} />
+        )}
 
-          {endLocation && (
-            <Marker position={[endLocation.lat, endLocation.lon]} icon={defaultIcon} />
-          )}
-        </MapContainer>
-      </div>
+        {endLocation && (
+          <Marker position={[endLocation.lat, endLocation.lon]} icon={defaultIcon} />
+        )}
+      </MapContainer>
     </div>
   );
 };

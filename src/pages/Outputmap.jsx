@@ -1,7 +1,8 @@
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { useLocation } from 'react-router-dom';
+import Navbar from "../my_components/Navbar_home";
+import Draggable from 'react-draggable';
 
 // Dummy location names for start and end (you can replace these with actual names if available)
 const locationNames = {
@@ -10,41 +11,58 @@ const locationNames = {
 };
 
 const OutputPage = ({ points }) => {
-  const bounds = L.latLngBounds(points.map(p => [p.lat, p.lon]));
+  // Ensure points array is valid and contains at least one point
+  if (!points || points.length === 0) {
+    return <div>No points available to display on the map.</div>;
+  }
+
+  // Filter out invalid points
+  const validPoints = points.filter(p => p && p.length === 2 && !isNaN(p[0]) && !isNaN(p[1]));
+
+  // Ensure there are valid points to display
+  if (validPoints.length === 0) {
+    return <div>No valid points available to display on the map.</div>;
+  }
+
+  const bounds = L.latLngBounds(validPoints.map(p => [p[1], p[0]]));
 
   // Define the path for the polyline
-  const path = points.map(p => [p.lat, p.lon]);
+  const path = validPoints.map(p => [p[1], p[0]]);
 
   return (
-    <div className="flex flex-col items-center justify-between px-4 mx-auto my-4 md:flex-row md:items-start md:px-8">
-      {/* Left Panel */}
-      <div className="w-full p-6 mb-8 bg-white rounded-md shadow-md md:mb-0 md:mr-8 md:w-1/3">
-        <h2 className="mb-4 text-2xl font-semibold">Path Details</h2>
+    <div className="relative min-h-screen">
+      <Navbar className="absolute top-0 left-0 w-full z-20" />
+      
+      {/* Draggable Left Panel */}
+      <Draggable>
+        <div className="absolute top-16 left-4 z-20 cursor-move w-full md:w-1/3 p-6 mb-8 bg-white rounded-md shadow-md">
+          <h2 className="mb-4 text-2xl font-semibold">Path Details</h2>
 
-        {/* Start Location */}
-        <div className="mb-4">
-          <h3 className="text-lg font-medium">Input Port:</h3>
-          <p>{points[0] ? `Latitude: ${points[0].lat}, Longitude: ${points[0].lon}` : 'Not Available'}</p>
-          <p>{locationNames.start}</p>
-        </div>
+          {/* Start Location */}
+          <div className="mb-4">
+            <h3 className="text-lg font-medium">Input Port:</h3>
+            <p>{validPoints[0] ? `Latitude: ${validPoints[0][1]}, Longitude: ${validPoints[0][0]}` : 'Not Available'}</p>
+            <p>{locationNames.start}</p>
+          </div>
 
-        {/* End Location */}
-        <div className="mb-4">
-          <h3 className="text-lg font-medium">Output Port:</h3>
-          <p>{points[points.length - 1] ? `Latitude: ${points[points.length - 1].lat}, Longitude: ${points[points.length - 1].lon}` : 'Not Available'}</p>
-          <p>{locationNames.end}</p>
-        </div>
+          {/* End Location */}
+          <div className="mb-4">
+            <h3 className="text-lg font-medium">Output Port:</h3>
+            <p>{validPoints[validPoints.length - 1] ? `Latitude: ${validPoints[validPoints.length - 1][1]}, Longitude: ${validPoints[validPoints.length - 1][0]}` : 'Not Available'}</p>
+            <p>{locationNames.end}</p>
+          </div>
 
-        <div>
-          <p>The optimized path is shown on the map above. This path represents the most efficient route connecting the selected ports.</p>
+          <div>
+            <p>The optimized path is shown on the map above. This path represents the most efficient route connecting the selected ports.</p>
+          </div>
         </div>
-      </div>
+      </Draggable>
 
       {/* Map */}
       <MapContainer
         center={bounds.getCenter()} 
         zoom={5} 
-        className="w-full h-96 md:w-2/3"
+        className="w-full h-screen z-10"
         maxBounds={bounds}
         maxBoundsViscosity={1.0}
         worldCopyJump={false}
@@ -57,23 +75,23 @@ const OutputPage = ({ points }) => {
         />
 
         {/* Marker for Start Point */}
-        {points[0] && (
+        {validPoints[0] && (
           <Marker
-            position={[points[0].lat, points[0].lon]}
+            position={[validPoints[0][1], validPoints[0][0]]}
             icon={defaultIcon}
           />
         )}
 
         {/* Marker for End Point */}
-        {points[points.length - 1] && (
+        {validPoints[validPoints.length - 1] && (
           <Marker
-            position={[points[points.length - 1].lat, points[points.length - 1].lon]}
+            position={[validPoints[validPoints.length - 1][1], validPoints[validPoints.length - 1][0]]}
             icon={defaultIcon}
           />
         )}
 
         {/* Polyline for the path */}
-        {points.length > 1 && (
+        {validPoints.length > 1 && (
           <Polyline 
             positions={path}
             color="red"
