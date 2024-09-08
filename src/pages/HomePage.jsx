@@ -1,21 +1,23 @@
 /* eslint-disable no-unused-vars */
+import Explanation from '@/my_components/Explanation';
+import Hero_Header from '@/my_components/Hero-Header';
+import Impact from '@/my_components/Impact';
+import Navbar from '@/my_components/Navbar_home';
 import React from 'react';
-import Navbar from '../my_components/Navbar.tsx';
-import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   return (
     <div>
-      <div className="h-screen flex flex-col items-center justify-center text-center">
-        <Link to="/Map">
-          <button className="mt-5 py-2 px-4 bg-blue-500 text-white text-lg hover:bg-blue-700">
-            Navigate to Map
-          </button>
-        </Link>
-      </div>
-      <footer className="bg-gray-800 text-white text-center py-3 fixed bottom-0 w-full">
-        <p>© 2024 Cargo Ship Routing. All rights reserved.</p>
-      </footer>
+      <Navbar />
+      <section id="home" className="min-h-screen bg-gray-100 p-8">
+        <Hero_Header />
+      </section>
+      <section id="what-is-navix" className="min-h-screen bg-gray-100 p-8">
+        <Explanation />
+      </section>
+      <section id="why-navix" className="min-h-screen bg-gray-100 p-8">
+        <Impact />
+      </section>
     </div>
   );
 };
